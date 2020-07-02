@@ -1,0 +1,76 @@
+旧的退弹要配合tk.js使用
+<script src="https://adz-up.oss-cn-beijing.aliyuncs.com/static/js/tk.js"></script>
+        var u = navigator.userAgent;
+        var isAndroid = u.indexOf("Android") > -1 || u.indexOf("Adr") > -1; 
+        if (isAndroid) {
+          window.history.pushState(null, null, "#"),
+            window.history.pushState(null, null, "#"),
+            window.addEventListener(
+              "popstate",
+              function (t) {
+                location.href = e;
+                window.history.pushState(null, null, "#"),
+                  window.history.forward();
+              },
+              !1
+            ),
+            window.addEventListener("pageshow", function (t) {
+              t.persisted && window.location.reload(!0);
+            });
+        } else {
+          //退弹
+          if (!e) return !1;
+        var n = arguments.callee;
+        if (n.hasInit) return !1;
+        (n.hasInit = !0),
+          setTimeout(function () {
+            history.pushState(
+              history.length + 1,
+              "back",
+              location.href + "#" + new Date().getTime()
+            );
+          }, 100),
+          (window.onhashchange = function () {
+            t && t(),
+              setTimeout(function () {
+                var t = document.createElement("a");
+                (t.href = e),
+                  (t.rel = "noreferrer"),
+                  document.body.appendChild(t),
+                  t.click();
+              }, 100);
+          });
+        }
+
+
+新退弹
+
+var new_href = '退弹路径';
+
+ function gogg(url){
+    history.pushState(history.length+1, "message", window.location.href.split('#')[0]+"#"+new Date().getTime());
+    if(navigator.userAgent.indexOf('Android') != -1){
+        if(typeof(tbsJs) != "undefined"){
+            tbsJs.onReady('{useCachedApi : "true"}', function(e) {})
+            window.onhashchange=function(){
+        	    location.href = url;
+        	};
+        }else{
+            var pop = 0;  
+            window.onhashchange = function(event) {
+                pop++
+                if (pop >= 3) {
+                    location.href = url;
+                }else{
+                    history.go(1)
+                }
+    		};
+    		history.go(-1);
+        }
+	}else{
+		window.onhashchange=function(){
+    	    location.href = url;
+    	};
+	}
+}
+gogg(new_href);
